@@ -8,7 +8,7 @@ function LoadModel(hash)
     while not HasModelLoaded(hash) do
         Wait(3000)
     end
-end 
+end
 
 local function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then
@@ -20,25 +20,28 @@ local function loadParticle(dict)
     SetPtfxAssetNextCall(dict)
 end
 
-CreateThread(function() 
-local Ped = "g_m_y_famdnf_01"
-	lib.requestModel("g_m_y_famdnf_01", 500)
-	labkitlocation = Config.buyheroinlabkit
-	heroinkitdealer = CreatePed(0, Ped,labkitlocation.x, labkitlocation.y, labkitlocation.z-1, 180.0, false, false)
-    FreezeEntityPosition(heroinkitdealer, true)
-    SetEntityInvincible(heroinkitdealer, true)
-	exports['qb-target']:AddTargetEntity(heroinkitdealer, {
-           options = {
-               {
-                   type = "client",
-                   label = "Buy Heroin Lab Kit",
-                   icon = "fas fa-eye",
-                   event = "md-drugs:client:buyheroinlabkit"
-               },
-           }
-          
-	})
-end)
+-- CreateThread(function()
+-- local Ped = "g_m_y_famdnf_01"
+--        RequestModel(Ped)
+--        while not HasModelLoaded(Ped) do
+--           Wait(0)
+--        end
+-- 	labkitlocation = Config.buyheroinlabkit
+-- 	heroinkitdealer = CreatePed(0, Ped,labkitlocation-1, 180.0, false, false)
+--     FreezeEntityPosition(heroinkitdealer, true)
+--     SetEntityInvincible(heroinkitdealer, true)
+-- 	exports['qb-target']:AddTargetEntity(heroinkitdealer, {
+--                 options = {
+--                     {
+--                         type = "client",
+--                         label = "Talk To Buyer",
+--                         icon = "fas fa-eye",
+--                         event = "md-drugs:client:buyheroinlabkit"
+--                     },
+--                 },
+--                 distance = 2.0
+--             })
+-- end)
 
 ---- plant spawns dont edit
 RegisterNetEvent('heroin:respawnCane', function(loc)
@@ -55,7 +58,7 @@ RegisterNetEvent('heroin:respawnCane', function(loc)
                     icon = "fas fa-hand",
                     label = "pick Poppies",
                     action = function()
-                        QBCore.Functions.Progressbar("pick_cane", "picking heroin", 2000, false, true, {
+                        QBCore.Functions.Progressbar("pick_cane", "Picking Poppies", 5000, false, true, {
                             disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
                             { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                             {}, {}, function()
@@ -79,8 +82,6 @@ RegisterNetEvent('heroin:removeCane', function(loc)
     PoppyPlants[loc] = nil
 end)
 
-
-
 RegisterNetEvent("heroin:init", function()
     for k, v in pairs (GlobalState.PoppyPlants) do
         local hash = GetHashKey(v.model)
@@ -95,7 +96,7 @@ RegisterNetEvent("heroin:init", function()
                         icon = "fas fa-hand",
                         label = "Pick Poppies",
                         action = function()
-                            QBCore.Functions.Progressbar("pick_cane", "Picking Heroin", 2000, false, true, {
+                            QBCore.Functions.Progressbar("pick_cane", "Picking Poppies", 5000, false, true, {
                                 disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                                 {}, {}, function()
@@ -119,13 +120,13 @@ AddEventHandler('onResourceStart', function(resource)
         TriggerEvent('heroin:init')
     end
  end)
- 
+
  RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
      Wait(3000)
      LoadModel('prop_plant_01b')
      TriggerEvent('heroin:init')
  end)
- 
+
  AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01b'))
@@ -140,11 +141,16 @@ AddEventHandler('onResourceStart', function(resource)
 end)
 ---- plant stop end
 
+RegisterNetEvent("md-drugs:client:dryplantcheck")
+AddEventHandler("md-drugs:client:dryplantcheck", function()
+    TriggerServerEvent("md-drugs:server:dryplantcheck")
+end)
+
 RegisterNetEvent("md-drugs:client:dryplant")
-AddEventHandler("md-drugs:client:dryplant", function() 
+AddEventHandler("md-drugs:client:dryplant", function()
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "drying out these poppies!", 4000, false, true, {
-        disableMovement = false,
+    QBCore.Functions.Progressbar("drink_something", "drying out these poppies!", 10000, false, true, {
+        disableMovement = true,
         disableCarMovement = false,
         disableMouse = false,
         disableCombat = true,
@@ -155,11 +161,16 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     end)
 end)
 
+RegisterNetEvent("md-drugs:client:cutheroincheck")
+AddEventHandler("md-drugs:client:cutheroincheck", function()
+    TriggerServerEvent("md-drugs:server:cutheroincheck")
+end)
+
 RegisterNetEvent("md-drugs:client:cutheroin")
-AddEventHandler("md-drugs:client:cutheroin", function() 
+AddEventHandler("md-drugs:client:cutheroin", function()
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "cutting the heroin!", 4000, false, true, {
-        disableMovement = false,
+    QBCore.Functions.Progressbar("drink_something", "cutting the heroin!", 10000, false, true, {
+        disableMovement = true,
         disableCarMovement = false,
         disableMouse = false,
         disableCombat = true,
@@ -170,116 +181,49 @@ AddEventHandler("md-drugs:client:cutheroin", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:buyheroinlabkit")
-AddEventHandler("md-drugs:client:buyheroinlabkit", function() 
+
+RegisterNetEvent("md-drugs:client:heatliquidheroincheck")
+AddEventHandler("md-drugs:client:heatliquidheroincheck", function()
+    TriggerServerEvent("md-drugs:server:heatliquidheroincheck")
+end)
+
+
+RegisterNetEvent("md-drugs:client:heatliquidheroin")
+AddEventHandler("md-drugs:client:heatliquidheroin", function()
+local PedCoords = GetEntityCoords(PlayerPedId())
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Shhhhh!", 4000, false, true, {
-        disableMovement = false,
+    QBCore.Functions.Progressbar("drink_something", "Heating Heroin!", 5000, false, true, {
+        disableMovement = true,
         disableCarMovement = false,
         disableMouse = false,
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-	    TriggerServerEvent("md-drugs:server:getheroinlabkit")
-        ClearPedTasks(PlayerPedId())
-    end)
-end)
-
-RegisterNetEvent("md-drugs:client:setheroinlabkit")
-AddEventHandler("md-drugs:client:setheroinlabkit", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
-	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-	ClearPedTasks(PlayerPedId())
-	heroinlabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
-	SetVehicleOnGroundProperly(heroinlabkit)
-	exports['qb-target']:AddTargetEntity(heroinlabkit, {
-    options = {
-        {
-         
-            event = "md-drugs:client:heatliquidheroin",
-            icon = "fas fa-box-circle-check",
-            label = "Cook Heroin",
-        },
-		{
-         
-            event = "md-drugs:client:getheroinkitback",
-            icon = "fas fa-box-circle-check",
-            label = "Pick Up",
-        },
-    }
-   })
-end)
-
-RegisterNetEvent("md-drugs:client:heatliquidheroin")
-AddEventHandler("md-drugs:client:heatliquidheroin", function() 
-local PedCoords = GetEntityCoords(PlayerPedId())
-exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
 	exports['ps-ui']:Circle(function(success)
     if success then
         TriggerServerEvent("md-drugs:server:heatliquidheroin")
         ClearPedTasks(PlayerPedId())
 	else
-		TriggerServerEvent("md-drugs:server:failheatingheroin")
-        ClearPedTasks(PlayerPedId())
-		DeleteObject(heroinlabkit)
-		Wait(100)
-		dirtylabkitheroin = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
-		loadParticle("core")
-	    heroinkit = StartParticleFxLoopedOnEntity("exp_air_molotov", dirtylabkitheroin, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, false, false, false)
-        SetParticleFxLoopedAlpha(heroinkit, 3.0)
-		 ClearPedTasks(PlayerPedId())
-		 SetPedToRagdoll(PlayerPedId(), 1300, 1300, 0, 0, 0, 0)
-		 
-		exports['qb-target']:AddTargetEntity(dirtylabkitheroin, {
-		 options = {
-        {
-         
-            event = "md-drugs:client:cleanheroinlabkit",
-            icon = "fas fa-box-circle-check",
-            label = "Clean It",
-        }
-    }
-	})
+        QBCore.Functions.Notify("You overheated the heroin!", "error")
 	end
-end, 1, 8) -- NumberOfCircles, MS
+end, 4, 8) -- NumberOfCircles, MS
+    end)
 end)
 
 
-RegisterNetEvent("md-drugs:client:cleanheroinlabkit")
-AddEventHandler("md-drugs:client:cleanheroinlabkit", function() 
-    exports["rpemotes"]:EmoteCommandStart("clean", 0)
-    QBCore.Functions.Progressbar("drink_something", "Cleaning", 4000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-        disableInventory = true,
-    }, {}, {}, {}, function()-- Done
-		TriggerServerEvent("md-drugs:server:removecleaningkitheroin")
-		 ClearPedTasks(PlayerPedId())
-	end)
+RegisterNetEvent("md-drugs:client:fillneedlecheck")
+AddEventHandler("md-drugs:client:fillneedlecheck", function()
+
+    TriggerServerEvent("md-drugs:server:fillneedlecheck")
+
 end)
 
-RegisterNetEvent("md-drugs:client:deletedirtyheroin")
-AddEventHandler("md-drugs:client:deletedirtyheroin", function() 
-DeleteObject(dirtylabkitheroin)
-Wait(1000)
-TriggerEvent("md-drugs:client:setheroinlabkit")
-end)
-
-
-RegisterNetEvent("md-drugs:client:getheroinkitback")
-AddEventHandler("md-drugs:client:getheroinkitback", function() 
-DeleteObject(heroinlabkit)
-TriggerServerEvent("md-drugs:server:getheroinlabkitback")
-ClearPedTasks(PlayerPedId())
-end)
 
 RegisterNetEvent("md-drugs:client:fillneedle")
-AddEventHandler("md-drugs:client:fillneedle", function() 
+AddEventHandler("md-drugs:client:fillneedle", function()
 exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Filling Needles!", 1000, false, true, {
-        disableMovement = false,
+    QBCore.Functions.Progressbar("drink_something", "Filling Needles!", 5000, false, true, {
+        disableMovement = true,
         disableCarMovement = false,
         disableMouse = false,
         disableCombat = true,
@@ -290,11 +234,95 @@ exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
         TriggerServerEvent("md-drugs:server:fillneedle")
         ClearPedTasks(PlayerPedId())
 	else
-		TriggerServerEvent("md-drugs:server:failheroin")
+        QBCore.Functions.Notify("Clumsy, you spilled it all!", "error")
         ClearPedTasks(PlayerPedId())
 	end
-end, 2, 8) -- NumberOfCircles, 
+end, 4, 8) -- NumberOfCircles,
     end)
 end)
 
+
+-- heroin lab kit stuff
+
+
+-- RegisterNetEvent("md-drugs:client:deletedirtyheroin")
+-- AddEventHandler("md-drugs:client:deletedirtyheroin", function()
+-- DeleteObject(dirtylabkitheroin)
+-- TriggerEvent("md-drugs:client:setheroinlabkit")
+-- ClearPedTasks(PlayerPedId())
+-- end)
+
+
+-- RegisterNetEvent("md-drugs:client:getheroinkitback")
+-- AddEventHandler("md-drugs:client:getheroinkitback", function()
+-- DeleteObject(heroinlabkit)
+-- TriggerServerEvent("md-drugs:server:getheroinlabkitback")
+-- ClearPedTasks(PlayerPedId())
+-- end)
+
+
+-- RegisterNetEvent("md-drugs:client:resetheroinkit")
+-- AddEventHandler("md-drugs:client:resetheroinkit", function()
+-- DeleteObject(heroinlabkit)
+-- TriggerEvent("md-drugs:server:getheroinlabkitback")
+-- ClearPedTasks(PlayerPedId())
+-- end)
+
+
+-- RegisterNetEvent("md-drugs:client:buyheroinlabkit")
+-- AddEventHandler("md-drugs:client:buyheroinlabkit", function()
+-- exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+--     QBCore.Functions.Progressbar("drink_something", "Shhhhh!", 4000, false, true, {
+--         disableMovement = false,
+--         disableCarMovement = false,
+--         disableMouse = false,
+--         disableCombat = true,
+--         disableInventory = true,
+--     }, {}, {}, {}, function()-- Done
+-- 	    TriggerServerEvent("md-drugs:server:getheroinlabkit")
+--         ClearPedTasks(PlayerPedId())
+--     end)
+-- end)
+
+-- RegisterNetEvent("md-drugs:client:setheroinlabkit")
+-- AddEventHandler("md-drugs:client:setheroinlabkit", function()
+-- local PedCoords = GetEntityCoords(PlayerPedId())
+-- 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+-- 	ClearPedTasks(PlayerPedId())
+-- 	heroinlabkit = CreateObject("v_ret_ml_tablea", PedCoords.x+1, PedCoords.y+1, PedCoords.z-1, true, false)
+-- 	SetVehicleOnGroundProperly(heroinlabkit)
+-- 	exports['qb-target']:AddTargetEntity(heroinlabkit, {
+--     options = {
+--         {
+--             type = "client",
+--             event = "md-drugs:client:heatliquidheroin",
+--             icon = "fas fa-box-circle-check",
+--             label = "Cook Heroin",
+--         },
+-- 		{
+--             type = "client",
+--             event = "md-drugs:client:getheroinkitback",
+--             icon = "fas fa-box-circle-check",
+--             label = "Pick Up",
+--         },
+--     },
+--     distance = 3.0
+-- })
+-- end)
+
+
+-- RegisterNetEvent("md-drugs:client:cleanheroinlabkit")
+-- AddEventHandler("md-drugs:client:cleanheroinlabkit", function()
+--     exports["rpemotes"]:EmoteCommandStart("clean", 0)
+--     QBCore.Functions.Progressbar("drink_something", "Cleaning", 4000, false, true, {
+--         disableMovement = false,
+--         disableCarMovement = false,
+--         disableMouse = false,
+--         disableCombat = true,
+--         disableInventory = true,
+--     }, {}, {}, {}, function()-- Done
+-- 		TriggerServerEvent("md-drugs:server:removecleaningkitheroin")
+-- 		 ClearPedTasks(PlayerPedId())
+-- 	end)
+-- end)
 

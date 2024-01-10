@@ -1,13 +1,15 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local WeedPlant = {}
 local exploded = nil
+local suppressed = nil
 function LoadModel(hash)
     hash = GetHashKey(hash)
     RequestModel(hash)
     while not HasModelLoaded(hash) do
         Wait(3000)
     end
-end 
+end
+local drying = {}
 
 RegisterNetEvent('weed:respawnCane', function(loc)
     local v = GlobalState.WeedPlant[loc]
@@ -19,7 +21,7 @@ RegisterNetEvent('weed:respawnCane', function(loc)
         FreezeEntityPosition(WeedPlant[loc], true)
         SetEntityHeading(WeedPlant[loc], v.heading)
          exports['qb-target']:AddTargetEntity(WeedPlant[loc], {
-            options = { 
+            options = {
 				{
                     icon = "fas fa-hand",
                     label = "Pick Weed",
@@ -61,7 +63,7 @@ RegisterNetEvent("weed:init", function()
             FreezeEntityPosition(WeedPlant[k], true)
             SetEntityHeading(WeedPlant[k], v.heading)
             exports['qb-target']:AddTargetEntity(WeedPlant[k], {
-                options = { 
+                options = {
 					{
                         icon = "fas fa-hand",
                         label = "Pick Weed",
@@ -100,7 +102,7 @@ AddEventHandler('onResourceStart', function(resource)
      LoadModel('bkr_prop_weed_lrg_01b')
      TriggerEvent('weed:init')
  end)
- 
+
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('bkr_prop_weed_lrg_01b'))
@@ -132,12 +134,12 @@ options = {
 			distance = 1,
 			items = "wetcannabis",
 			action = function()
-				if drying then
+				if drying[k] then
 					QBCore.Functions.Notify("Already Drying One Out", "error")
 				else
 					local loc = GetEntityCoords(PlayerPedId())
 					local weedplant = CreateObject("bkr_prop_weed_drying_01a", loc.x, loc.y+.2, loc.z, true, false)
-					drying = true
+					drying[k] = true
 					FreezeEntityPosition(weedplant, true)
 					QBCore.Functions.Notify("Wait A little Bit To Dry", "success")
 					Wait(math.random(1000,5000))
@@ -157,7 +159,7 @@ options = {
 											if  QBCore.Functions.GetPlayerData().job.name == Config.weedjob then
 												return true end
 										else
-										return true end end,										
+										return true end end,
 								}
 							}
 						})
@@ -188,7 +190,7 @@ options = {
 			distance = 5,
 			action = function()
 				SetEntityCoords(PlayerPedId(),Config.Teleout)
-				
+
 			end,
 			canInteract = function()
 			if Config.Joblock then
@@ -196,9 +198,9 @@ options = {
 					return true end
 			else
 			return true end end,
-			
+
 		},
-	},	
+	},
 })
 exports['qb-target']:AddBoxZone("teleinweedout",Config.Teleout,1.5, 1.75, { -- 963.37, .z-2122.95, 31.47
 		name = "teleinweedout",
@@ -215,7 +217,7 @@ options = {
 			distance = 5,
 			action = function()
 				SetEntityCoords(PlayerPedId(),Config.Telein)
-				
+
 			end,
 			canInteract = function()
 			if Config.Joblock then
@@ -223,9 +225,9 @@ options = {
 					return true end
 			else
 			return true end end,
-			
+
 		},
-	},	
+	},
 })
 exports['qb-target']:AddBoxZone("MakeButter",Config.MakeButter,1.5, 1.75, { -- 963.37, .z-2122.95, 31.47
 		name = "MakeButter",
@@ -250,12 +252,12 @@ options = {
 						}, {}, {}, {}, function()-- Done
 							exports['ps-ui']:Circle(function(success)
 						if success then
-							TriggerServerEvent("md-drugs:server:makebutter")       
+							TriggerServerEvent("md-drugs:server:makebutter")
 							ClearPedTasks(PlayerPedId())
 							else
 							ClearPedTasks(PlayerPedId())
 							end
-						end, 3, 8) -- NumberOfCircles, 
+						end, 3, 8) -- NumberOfCircles,
 						end)
 			end,
 			canInteract = function()
@@ -281,12 +283,12 @@ options = {
 					}, {}, {}, {}, function()-- Done
 					exports['ps-ui']:Circle(function(success)
 					if success then
-						TriggerServerEvent("md-drugs:server:makebrownies")       
+						TriggerServerEvent("md-drugs:server:makebrownies")
 						ClearPedTasks(PlayerPedId())
 					else
 						ClearPedTasks(PlayerPedId())
 					end
-					end, 3, 8) -- NumberOfCircles, 
+					end, 3, 8) -- NumberOfCircles,
 						end)
 			end,
 			canInteract = function()
@@ -312,12 +314,12 @@ options = {
 					}, {}, {}, {}, function()-- Done
 					exports['ps-ui']:Circle(function(success)
 					if success then
-						TriggerServerEvent("md-drugs:server:makecookies")       
+						TriggerServerEvent("md-drugs:server:makecookies")
 						ClearPedTasks(PlayerPedId())
 					else
 						ClearPedTasks(PlayerPedId())
 					end
-					end, 3, 8) -- NumberOfCircles, 
+					end, 3, 8) -- NumberOfCircles,
 						end)
 			end,
 			canInteract = function()
@@ -343,12 +345,12 @@ options = {
 					}, {}, {}, {}, function()-- Done
 					exports['ps-ui']:Circle(function(success)
 					if success then
-						TriggerServerEvent("md-drugs:server:makechocolate")       
+						TriggerServerEvent("md-drugs:server:makechocolate")
 						ClearPedTasks(PlayerPedId())
 					else
 						ClearPedTasks(PlayerPedId())
 					end
-					end, 3, 8) -- NumberOfCircles, 
+					end, 3, 8) -- NumberOfCircles,
 						end)
 			end,
 			canInteract = function()
@@ -379,7 +381,7 @@ options = {
 					else
 						ClearPedTasks(PlayerPedId())
 					end
-					end, 3, 8) -- NumberOfCircles, 
+					end, 3, 8) -- NumberOfCircles,
 						end)
 			end,
 			canInteract = function()
@@ -389,7 +391,7 @@ options = {
 			else
 			return true end end,
 		},
-	},	
+	},
 })
 exports['qb-target']:AddBoxZone("makeoil",Config.MakeOil,1.5, 1.75, { -- 963.37, .z-2122.95, 31.47
 		name = "makeoil",
@@ -414,7 +416,7 @@ options = {
 						}, {}, {}, {}, function()-- Done
 							exports['ps-ui']:Circle(function(success)
 						if success then
-							TriggerServerEvent("md-drugs:server:makeoil")       
+							TriggerServerEvent("md-drugs:server:makeoil")
 							ClearPedTasks(PlayerPedId())
 						else
 							local explosion = math.random(1,100)
@@ -425,19 +427,61 @@ options = {
 								QBCore.Functions.Notify("Stove Is Too Hot Wait 30 Seconds To Cool Down", "error")
 								Wait(1000 * 30)
 								exploded = nil
-							end	
+							end
 							ClearPedTasks(PlayerPedId())
 							end
-						end, 3, 8) -- NumberOfCircles, 
+						end, 3, 8) -- NumberOfCircles,
 						end)
 			end,
 			canInteract = function()
 			if exploded == nil then return true end
 			end,
 		},
-	},	
+	},
 })
+
+
+exports['qb-target']:AddBoxZone("firesuppression", vector3(1046.59, -3207.19, -38.67), 1.5, 1.75, {
+    name="firesuppression",
+    heading=83.9,
+    debugPoly= false,
+    minZ=-40.17,
+    maxZ=-36.17
+}, {
+    options = {
+        {
+            name = "firesuppression",
+            icon = "fas fa-sign-in-alt",
+            label = "Fire Suppression",
+            action = function()
+                exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+                QBCore.Functions.Progressbar("drink_something", "Activating Fire Suppression", 4000, false, true, {
+                    disableMovement = false,
+                    disableCarMovement = false,
+                    disableMouse = false,
+                    disableCombat = true,
+                    disableInventory = true,
+                }, {}, {}, {}, function() -- Done
+					QBCore.Functions.Notify("Fire Suppression active", "error")
+                    suppressed = true
+                    Wait(1000 * 1)
+                    -- STOP_FIRE_IN_RANGE
+                    StopFireInRange(1038.90, -3198.66, -38.17-1, 1000.1)
+                    Wait(1000 * 60)
+                    suppressed = nil
+                    QBCore.Functions.Notify("Fire Suppression System Reset", "error")
+                end)
+            end,
+            canInteract = function()
+				if suppressed == nil then return true end
+				end,
+        },
+    }
+})
+
+
 end)
+
 
 CreateThread(function()
     BikerWeedFarm = exports['bob74_ipl']:GetBikerWeedFarmObject()
@@ -461,6 +505,10 @@ CreateThread(function()
 	stove2 = CreateObject("prop_cooker_03",vector3(1038.90, -3198.66, -38.17-1), true, false)
 	SetEntityHeading(stove2, 90.00)
 	FreezeEntityPosition(stove2, true)
+	firesuppression = CreateObject("prop_fire_driser_4b",vector3(1046.59, -3207.58, -38.67), true,false)
+	SetEntityHeading(firesuppression, 183.3)
+	FreezeEntityPosition(firesuppression, true)
+
 end)
 
 RegisterNetEvent('md-drugs:client:bluntwraps', function(args)
@@ -495,14 +543,14 @@ RegisterNetEvent('md-drugs:client:bluntwraps', function(args)
 	},
   },
   })
- 
+
   lib.showContext('bluntroll')
 end)
 
 RegisterNetEvent("md-drugs:client:rollanim", function()
 exports["rpemotes"]:EmoteCommandStart('uncuff', 0)
 Wait(4000)
-exports["rpemotes"]:EmoteCancel(forceCancel) 
+exports["rpemotes"]:EmoteCancel(forceCancel)
 end)
 
 
@@ -532,12 +580,12 @@ CreateThread(function()
 local WeedShop = {}
 local current = "u_m_m_jesus_01"
 lib.requestModel(current, timeout)
-local CurrentLocation = vector3(1030.46, -3203.63, -38.2)
+local CurrentLocation = vector3(167.73, -222.01, 54.25)
 	 WeedGuy = CreatePed(0,current,CurrentLocation.x,CurrentLocation.y,CurrentLocation.z-1, CurrentLocation.h, false, false)
              FreezeEntityPosition(WeedGuy, true)
             SetEntityInvincible(WeedGuy, true)
 			SetEntityHeading(WeedGuy, 270.0)
-			exports['qb-target']:AddTargetEntity(WeedGuy, { 
+			exports['qb-target']:AddTargetEntity(WeedGuy, {
                 options = {
                     {
                         label = "Weed Shop",
@@ -545,14 +593,14 @@ local CurrentLocation = vector3(1030.46, -3203.63, -38.2)
 						action = function()
 						lib.showContext('WeedShop')
 						end,
-						
+
                     },
                 }
-               
+
 				})
-for k, v in pairs (Config.Weed.items) do 
+for k, v in pairs (Config.Weed.items) do
 	WeedShop[#WeedShop + 1] = {
-		icon = "nui://".."ps-inventory/html/images/"..QBCore.Shared.Items[v.name].image,
+		icon = "nui://"..Config.imagelink..QBCore.Shared.Items[v.name].image,
 		 header = v.label,
 		 title = v.label,
 		 event = "md-drugs:client:WeedShop",
@@ -562,16 +610,16 @@ for k, v in pairs (Config.Weed.items) do
 			 amount = v.amount,
 		 }
 	 }
- 
+
  lib.registerContext({id = 'WeedShop',title = "Weed Shop", options = WeedShop})
 end
 
 end)
 
 RegisterNetEvent("md-drugs:client:WeedShop", function(data)
-	local price = data.cost 
+	local price = data.cost
 	local settext = "Amnt: "..data.amount.." | Cost: "..price or "Cost: "..price
-	local max = data.amount  
+	local max = data.amount
 	local dialog = exports.ox_lib:inputDialog(data.item .."!",   {
 		{ type = 'select', label = "Payment Type", default = "cash",
 			options = {

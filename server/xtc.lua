@@ -158,7 +158,6 @@ RegisterServerEvent('md-drugs:server:makingrawxtc', function()
 		  TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['mdp2p'], "remove",  1)
 	  else
 	  TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-	  Player.Functions.AddItem("mdp2p", 1)
 	  end
   else 
   TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
@@ -169,11 +168,11 @@ RegisterServerEvent('md-drugs:server:makextcsingle', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "add",  1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
-		Player.Functions.AddItem("white_xtc", 1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc'], "add",  1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
+    Player.Functions.AddItem("white_xtc", 1)
   else
-		TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -181,11 +180,11 @@ RegisterServerEvent('md-drugs:server:makextcdual', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc2'], "add",  1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
-		Player.Functions.AddItem("white_xtc2", 1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc2'], "add",  1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
+    Player.Functions.AddItem("white_xtc2", 1)
   else
-		TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -193,11 +192,11 @@ RegisterServerEvent('md-drugs:server:makextctriple', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc3'], "add",  1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
-		Player.Functions.AddItem("white_xtc3", 1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc3'], "add",  1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
+    Player.Functions.AddItem("white_xtc3", 1)
   else
-		TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -205,11 +204,11 @@ RegisterServerEvent('md-drugs:server:makextcquad', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   if Player.Functions.RemoveItem("raw_xtc", 1) then
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc4'], "add",  1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
-		Player.Functions.AddItem("white_xtc4", 1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['white_xtc4'], "add",  1)
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['raw_xtc'], "remove",  1)
+    Player.Functions.AddItem("white_xtc4", 1)
   else
-		TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
+	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
   end	
 end)
 
@@ -224,8 +223,7 @@ RegisterServerEvent('md-drugs:server:makeredxtcsingle', function()
 	 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
 	 	Player.Functions.AddItem("red_xtc", 1)
 	 else 
-	 	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-	 	Player.Functions.AddItem("raw_xtc", 1)
+	 TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	 end
    else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -242,8 +240,7 @@ RegisterServerEvent('md-drugs:server:makeredxtcdual', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
 		Player.Functions.AddItem("red_xtc2", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -260,8 +257,7 @@ RegisterServerEvent('md-drugs:server:makeredxtctriple', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
 		Player.Functions.AddItem("red_xtc3", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -278,8 +274,7 @@ RegisterServerEvent('md-drugs:server:makeredxtcquad', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove",  1)
 		Player.Functions.AddItem("red_xtc4", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -297,8 +292,7 @@ RegisterServerEvent('md-drugs:server:makeorangextcsingle', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
 		Player.Functions.AddItem("orange_xtc", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -315,8 +309,7 @@ RegisterServerEvent('md-drugs:server:makeorangextcdual', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
 		Player.Functions.AddItem("orange_xtc2", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -333,8 +326,7 @@ RegisterServerEvent('md-drugs:server:makeorangextctriple', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
 		Player.Functions.AddItem("orange_xtc3", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -351,8 +343,7 @@ RegisterServerEvent('md-drugs:server:makeorangextcquad', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['heroinvial'], "remove",  1)
 		Player.Functions.AddItem("orange_xtc4", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -369,8 +360,7 @@ RegisterServerEvent('md-drugs:server:makebluextcsingle', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['crackrock'], "remove",  1)
 		Player.Functions.AddItem("blue_xtc", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -387,8 +377,7 @@ RegisterServerEvent('md-drugs:server:makebluextcdual', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['crackrock'], "remove",  1)
 		Player.Functions.AddItem("blue_xtc2", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -405,8 +394,7 @@ RegisterServerEvent('md-drugs:server:makebluextctriple', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['crackrock'], "remove",  1)
 		Player.Functions.AddItem("blue_xtc3", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  
@@ -423,8 +411,7 @@ RegisterServerEvent('md-drugs:server:makebluextcquad', function()
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['crackrock'], "remove",  1)
 		Player.Functions.AddItem("blue_xtc4", 1)
 	else 
-		TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
-		Player.Functions.AddItem("raw_xtc", 1)
+	TriggerClientEvent('QBCore:Notify', src, "You Dont Have the stuff", "error")
 	end
   else
 	TriggerClientEvent('QBCore:Notify', src, "How you gonna make xtc pills without xtc", "error")  

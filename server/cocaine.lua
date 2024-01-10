@@ -10,7 +10,8 @@ end)
 
 function CaneCooldown(loc)
     CreateThread(function()
-        Wait(Config.respawnTime * 1000)
+		local randomNum = math.random(1,2000)
+        Wait(Config.respawnTime * 1000 - randomNum)
         Config.CocaPlant[loc].taken = false
         GlobalState.CocaPlant = Config.CocaPlant
         Wait(1000)
@@ -31,163 +32,88 @@ AddEventHandler("coke:pickupCane", function(loc)
     end
 end)
 
+RegisterServerEvent('md-drugs:server:makepowdercheck', function()
+	local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+
+	if Player.Functions.RemoveItem("coca_leaf", 1) then
+		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
+		TriggerClientEvent("md-drugs:client:makepowder", src)
+	else
+		TriggerClientEvent('QBCore:Notify', src, "You don't have any coca leafs", "error")
+    end
+end)
 
 RegisterServerEvent('md-drugs:server:makepowder', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	local randomchance = math.random(1,100)
-	if Config.TierSystem then		
-		if randomchance <= 80 then 
-			if Player.Functions.RemoveItem("coca_leaf", 1) then
-				Player.Functions.AddItem("coke", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
-			end
-		elseif randomchance >= 81 and randomchance <= 95 then
-		if Player.Functions.RemoveItem("coca_leaf", 1) then
-				Player.Functions.AddItem("cokestagetwo", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagetwo'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
-			end
-		else
-			if Player.Functions.RemoveItem("coca_leaf", 1) then
-				Player.Functions.AddItem("cokestagethree", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagethree'], "add", 1)
-				TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
-			end
-		end
+
+	if Player.Functions.AddItem("coke", 1) then
+    	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "add", 1)
 	else
-		if Player.Functions.RemoveItem("coca_leaf", 1) then
-			Player.Functions.AddItem("coke", 1)
-			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "add", 1)
-			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", 1)
-		end
-	end	
+		TriggerClientEvent('QBCore:Notify', src, "your pockets are full and you dropped everything", "error")
+    end
 end)
 
 
-RegisterServerEvent('md-drugs:server:cutcokeone', function()
+RegisterServerEvent('md-drugs:server:cutcokecheck', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	if Config.TierSystem then		
-		if Player.Functions.RemoveItem('coke', 1 ) then
-			if Player.Functions.RemoveItem('bakingsoda', 1 ) then
-				if Player.Functions.AddItem('loosecoke', 1) then
-					TriggerClientEvent('QBCore:Notify', src, "you make some cut coke", "success")
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
-				
-				end
-			else 
-			TriggerClientEvent('QBCore:Notify', src, "you aint got baking soda", "error")
-			Player.Functions.AddItem('coke', 1)
-			end
-		elseif Player.Functions.RemoveItem('cokestagetwo', 1 ) then
-			if Player.Functions.RemoveItem('bakingsoda', 1 ) then
-				if Player.Functions.AddItem('loosecokestagetwo', 1) then
-					TriggerClientEvent('QBCore:Notify', src, "you make some cut coke", "success")
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecokestagetwo'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagetwo'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
-				
-				end
-			else 
-			TriggerClientEvent('QBCore:Notify', src, "you aint got baking soda", "error")
-			Player.Functions.AddItem('cokestagetwo', 1)
-			end
-		elseif Player.Functions.RemoveItem('cokestagethree', 1 ) then
-			if Player.Functions.RemoveItem('bakingsoda', 1 ) then
-				if Player.Functions.AddItem('loosecokestagethree', 1) then
-					TriggerClientEvent('QBCore:Notify', src, "you make some cut coke", "success")
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecokestagethree'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokestagethree'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
-				end
-			else 
-			TriggerClientEvent('QBCore:Notify', src, "you aint got baking soda", "error")
-			Player.Functions.AddItem('cokestagethree', 1)
-			end
+
+	if Player.Functions.RemoveItem("coke", 1) then
+		if Player.Functions.RemoveItem('bakingsoda', 1 ) then
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "remove", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
+			TriggerClientEvent("md-drugs:client:cutcoke", src) --call cutcoke client side
 		else
-		TriggerClientEvent('QBCore:Notify', src, "you aint got the powder", "error")
-		end	
-	else
-		if Player.Functions.RemoveItem('coke', 1 ) then
-			if Player.Functions.RemoveItem('bakingsoda', 1 ) then
-				if Player.Functions.AddItem('loosecoke', 1) then
-					TriggerClientEvent('QBCore:Notify', src, "you make some cut coke", "success")
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", 1)
-				
-				end
-			else 
-			TriggerClientEvent('QBCore:Notify', src, "you aint got baking soda", "error")
+			TriggerClientEvent('QBCore:Notify', src, "You don't have any baking soda", "error")
 			Player.Functions.AddItem('coke', 1)
-			end
-		end	
-	end	
+		end
+	else
+		TriggerClientEvent('QBCore:Notify', src, "You don't have any coke", "error")
+	end
+end)
+
+
+RegisterServerEvent('md-drugs:server:cutcoke', function()
+	local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+
+	if Player.Functions.AddItem('loosecoke', 3) then
+		TriggerClientEvent('QBCore:Notify', src, "Made some cut coke", "success")
+		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "add", 3)
+	else
+		TriggerClientEvent('QBCore:Notify', src, "your pockets are full and you dropped everything", "error")
+    end
+
+end)
+
+RegisterServerEvent('md-drugs:server:bagcokecheck', function()
+	local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+
+	if Player.Functions.RemoveItem("loosecoke", 1) then
+		if Player.Functions.RemoveItem('empty_weed_bag', 1 ) then
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove", 1)
+			TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['empty_weed_bag'], "remove", 1)
+			TriggerClientEvent("md-drugs:client:bagcoke", src) --call bagcoke client side
+		else
+			TriggerClientEvent('QBCore:Notify', src, "You don't have bags", "error")
+			Player.Functions.AddItem('loosecoke', 1)
+		end
+	else
+		TriggerClientEvent('QBCore:Notify', src, "You don't have any coke to bag up", "error")
+	end
 end)
 
 RegisterServerEvent('md-drugs:server:bagcoke', function()
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-	local chance = math.random(1,3)
-	
-	if Config.TierSystem then
-		if Player.Functions.RemoveItem('loosecoke', 1 ) then
-			if Player.Functions.RemoveItem('empty_weed_bag', 1) then
-				if Player.Functions.AddItem('cokebaggy', 1) then
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokebaggy'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['empty_weed_bag'], "remove", 1)
-					TriggerClientEvent('QBCore:Notify', src, "you got bags", "success")
-				end
-			else 
-			TriggerClientEvent('QBCore:Notify', src, "you aint got bags", "error")
-			Player.Functions.AddItem('loosecoke', 1)
-			end
-		elseif Player.Functions.RemoveItem('loosecokestagetwo', 1 ) then
-			if Player.Functions.RemoveItem('empty_weed_bag', 1) then
-				if Player.Functions.AddItem('cokebaggystagetwo', 1) then
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokebaggystagetwo'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecokestagetwo'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['empty_weed_bag'], "remove", 1)
-					TriggerClientEvent('QBCore:Notify', src, "you got bags", "success")
-				end
-			else 
-			TriggerClientEvent('QBCore:Notify', src, "you aint got bags", "error")
-			Player.Functions.AddItem('loosecokestagetwo', 1)
-			end
-		elseif Player.Functions.RemoveItem('loosecokestagethree', 1 ) then
-			if Player.Functions.RemoveItem('empty_weed_bag', 1) then
-				if Player.Functions.AddItem('cokebaggystagethree', 1) then
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokebaggystagethree'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecokestagethree'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['empty_weed_bag'], "remove", 1)
-					TriggerClientEvent('QBCore:Notify', src, "you got bags", "success")
-				end
-			else 
-			TriggerClientEvent('QBCore:Notify', src, "you aint got bags", "error")
-			Player.Functions.AddItem('loosecokestagethree', 1)
-			end
-		else
-		TriggerClientEvent('QBCore:Notify', src, "you aint got the supplies", "error")
-		end
+
+	if Player.Functions.AddItem('cokebaggy', 1) then
+		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokebaggy'], "add", 1)
 	else
-		if Player.Functions.RemoveItem('loosecoke', 1 ) then
-			if Player.Functions.RemoveItem('empty_weed_bag', 1) then
-				if Player.Functions.AddItem('cokebaggy', 1) then
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cokebaggy'], "add", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['loosecoke'], "remove", 1)
-					TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['empty_weed_bag'], "remove", 1)
-					TriggerClientEvent('QBCore:Notify', src, "you got bags", "success")
-				end
-			else 
-			TriggerClientEvent('QBCore:Notify', src, "you aint got bags", "error")
-			Player.Functions.AddItem('loosecoke', 1)
-			end
-		end
-	end	
-	
+		TriggerClientEvent('QBCore:Notify', src, "your pockets are full and you dropped everything", "error")
+    end
+
 end)

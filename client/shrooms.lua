@@ -40,24 +40,13 @@ RegisterNetEvent('shrooms:respawnCane', function(loc)
         })
     end
 end)
+
 AddEventHandler('onResourceStart', function(resource)
     if resource == GetCurrentResourceName() then
-		Wait(3000)
-        LoadModel('mushroom')
+        LoadModel('prop_stoneshroom1')
         TriggerEvent('shrooms:init')
     end
  end)
-
-AddEventHandler('onResourceStop', function(resourceName)
-    if GetCurrentResourceName() == resourceName then
-        SetModelAsNoLongerNeeded(GetHashKey('mushroom'))
-        for k, v in pairs(shrooms) do
-            if DoesEntityExist(v) then
-                DeleteEntity(v) SetEntityAsNoLongerNeeded(v)
-            end
-        end
-    end
-end)
 
 RegisterNetEvent('shrooms:removeCane', function(loc)
     if DoesEntityExist(shrooms[loc]) then DeleteEntity(shrooms[loc]) end
@@ -66,10 +55,9 @@ end)
 
  RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
      Wait(3000)
-     LoadModel('mushroom')
+     LoadModel('prop_stoneshroom1')
      TriggerEvent('shrooms:init')
  end)
-
 
  RegisterNetEvent("shrooms:init", function()
     for k, v in pairs (GlobalState.shrooms) do

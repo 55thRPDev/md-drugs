@@ -13,21 +13,17 @@ client_scripts {
 server_scripts {
     'server/**.lua',
 	'@oxmysql/lib/MySQL.lua',
-	
+
 }
 
 shared_scripts {
+    'config.lua',
 	'@ox_lib/init.lua',
-	'shared/**.lua',
+
+
 }
 
 
 lua54 'yes'
 
 dependency '/assetpacks'
-dependency 'bob74_ipl'
-files {
-	'stream/mushroom.ytyp'
-}
-
-data_file 'DLC_ITYP_REQUEST' 'stream/mushroom.ytyp'

@@ -65,7 +65,6 @@ local Player = QBCore.Functions.GetPlayer(src)
 			TriggerClientEvent('QBCore:Notify', src, "you made some LSD", "success")
 		else
 		TriggerClientEvent('QBCore:Notify', src, "you aint got the right shit", "error")
-		Player.Functions.AddItem('diethylamide', 1)
 		end
 	else
 	TriggerClientEvent('QBCore:Notify', src, "you aint got the right shit", "error")
@@ -76,8 +75,8 @@ RegisterServerEvent('md-drugs:server:failheating', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
-if Player.Functions.RemoveItem('diethylamide', 1) then 
-	if Player.Functions.RemoveItem('lysergic_acid', 1) then 
+if Player.Functions.RemoveItem('diethylamide', Config.diethylamideliquid) then 
+	if Player.Functions.RemoveItem('lysergic_acid', Config.lysergicacidliquid) then 
 		TriggerClientEvent('QBCore:Notify', src, "you overheated them idiot", "error")
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['diethylamide'], "remove", 1)
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['lysergic_acid'], "remove", 1)
@@ -121,10 +120,7 @@ local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local randomchance = math.random(1,100)
 
-	if Player.Functions.RemoveItem('lsd_one_vial', 1) then 
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['lsd_one_vial'], "remove", 1)
-	else
-		TriggerClientEvent('QBCore:Notify', src, "Nothing To Refine", "error")
+if Player.Functions.RemoveItem('lsd_one_vial', 1) then 
 	end
 end)
 
@@ -132,24 +128,22 @@ end)
 RegisterServerEvent('md-drugs:server:gettabpaper', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
+local amount = math.random(5000, 20000)
 
-	if Player.Functions.RemoveMoney('cash', Config.tabcost * 10) then
+	if Player.Functions.RemoveMoney('cash', amount) then
 		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['tab_paper'], "add", 10)
 		Player.Functions.AddItem('tab_paper', 10)
-	else
-		TriggerClientEvent('QBCore:Notify', src, "Your Broke Ass Cant Afford these", "error")
 	end
 end)
  
 RegisterServerEvent('md-drugs:server:getlabkit', function()
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
+local amount = 10000
 
-	if Player.Functions.RemoveMoney('cash', Config.lsdlabkitcost) then
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['lsdlabkit'], "add", 1)
-		Player.Functions.AddItem('lsdlabkit', 1)
-	else
-		TriggerClientEvent('QBCore:Notify', src, "Your Broke Ass Cant Afford This", "error")
+if Player.Functions.RemoveMoney('cash', 10000) then
+	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['lsdlabkit'], "add", 1)
+	Player.Functions.AddItem('lsdlabkit', 1)
 	end
 end)
 

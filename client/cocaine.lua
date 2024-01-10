@@ -1,11 +1,13 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local CocaPlant = {}
-local cuttingcoke = nil
-local baggingcoke = nil
+
 function LoadModel(hash)
     hash = GetHashKey(hash)
-    lib.requestModel(hash, 500)
-end 
+    RequestModel(hash)
+    while not HasModelLoaded(hash) do
+        Wait(3000)
+    end
+end
 
 RegisterNetEvent('coke:respawnCane', function(loc)
     local v = GlobalState.CocaPlant[loc]
@@ -16,11 +18,12 @@ RegisterNetEvent('coke:respawnCane', function(loc)
         SetEntityAsMissionEntity(CocaPlant[loc], true, true)
         FreezeEntityPosition(CocaPlant[loc], true)
         SetEntityHeading(CocaPlant[loc], v.heading)
-        exports['qb-target']:AddTargetEntity(CocaPlant[loc], {
-            options = { {
+        exports.ox_target:addLocalEntity(CocaPlant[loc], {
+                {
                     icon = "fas fa-hand",
                     label = "pick Cocaine",
-                    action = function()
+                    distance = 3.0,
+                    onSelect = function()
                         QBCore.Functions.Progressbar("pick_cane", "picking Cocaine Leaves", 2000, false, true, {
                             disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
                             { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
@@ -30,10 +33,9 @@ RegisterNetEvent('coke:respawnCane', function(loc)
                         end, function() -- Cancel
                             ClearPedTasks(PlayerPedId())
                         end)
-                    end
+                    end,
+
                 }
-            },
-            distance = 3.0
         })
     end
 end)
@@ -52,11 +54,12 @@ RegisterNetEvent("coke:init", function()
             SetEntityAsMissionEntity(CocaPlant[k], true, true)
             FreezeEntityPosition(CocaPlant[k], true)
             SetEntityHeading(CocaPlant[k], v.heading)
-            exports['qb-target']:AddTargetEntity(CocaPlant[k], {
-                options = { {
+            exports.ox_target:addLocalEntity(CocaPlant[k], {
+                 {
                         icon = "fas fa-hand",
                         label = "pick cocaine",
-                        action = function()
+                        distance = 3.0,
+                        onSelect = function()
                             QBCore.Functions.Progressbar("pick_cane", "picking Cocaine Leaves", 2000, false, true, {
                                 disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
@@ -65,11 +68,9 @@ RegisterNetEvent("coke:init", function()
                                 ClearPedTasks(PlayerPedId())
                             end, function() -- Cancel
                                 ClearPedTasks(PlayerPedId())
-                            end)
+                            end, "fa-regular fa-leaf")
                         end
                     }
-                },
-                distance = 3.0
             })
         end
     end
@@ -86,7 +87,7 @@ AddEventHandler('onResourceStart', function(resource)
      LoadModel('prop_plant_01a')
      TriggerEvent('coke:init')
  end)
- 
+
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_plant_01a'))
@@ -98,11 +99,17 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
 end)
 
+
+RegisterNetEvent("md-drugs:client:makepowdercheck")
+AddEventHandler("md-drugs:client:makepowdercheck", function()
+	    TriggerServerEvent("md-drugs:server:makepowdercheck")
+end)
+
 RegisterNetEvent("md-drugs:client:makepowder")
-AddEventHandler("md-drugs:client:makepowder", function() 
+AddEventHandler("md-drugs:client:makepowder", function()
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
     QBCore.Functions.Progressbar("drink_something", "chopping plants to powder", 4000, false, true, {
-        disableMovement = false,
+        disableMovement = true,
         disableCarMovement = false,
         disableMouse = false,
         disableCombat = true,
@@ -113,65 +120,42 @@ AddEventHandler("md-drugs:client:makepowder", function()
     end)
 end)
 
-RegisterNetEvent("md-drugs:client:cutcokeone")
-AddEventHandler("md-drugs:client:cutcokeone", function() 
-	cuttingcoke = true
-	CutCoke()
-	TriggerServerEvent("md-drugs:server:cutcokeone")
-    ClearPedTasks(PlayerPedId())
-	cuttingcoke = nil
-   
+RegisterNetEvent("md-drugs:client:cutcokecheck")
+AddEventHandler("md-drugs:client:cutcokecheck", function()
+	    TriggerServerEvent("md-drugs:server:cutcokecheck")
+end)
+
+RegisterNetEvent("md-drugs:client:cutcoke")
+AddEventHandler("md-drugs:client:cutcoke", function()
+	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+    QBCore.Functions.Progressbar("drink_something", "Cutting coke with baking soda", 4000, false, true, {
+        disableMovement = true,
+        disableCarMovement = false,
+        disableMouse = false,
+        disableCombat = true,
+        disableInventory = true,
+    }, {}, {}, {}, function()-- Done
+	    TriggerServerEvent("md-drugs:server:cutcoke")
+        ClearPedTasks(PlayerPedId())
+    end)
+end)
+
+RegisterNetEvent("md-drugs:client:bagcokecheck")
+AddEventHandler("md-drugs:client:bagcokecheck", function()
+	    TriggerServerEvent("md-drugs:server:bagcokecheck")
 end)
 
 RegisterNetEvent("md-drugs:client:bagcoke")
-AddEventHandler("md-drugs:client:bagcoke", function() 
-	baggingcoke = true
-	BagCoke()
-	TriggerServerEvent("md-drugs:server:bagcoke")
-    ClearPedTasks(PlayerPedId())
-	baggingcoke = nil
-   
-end)
-
-CreateThread(function()
-	exports['qb-target']:AddBoxZone("cutcokepowder",vector3(1093.01, -3194.8, -38.99),1.5, 1.75, { -- 963.37, -2122.95, 31.47
-		name = "cutcokepowder",
-		heading = 11.0,
-		debugPoly = false,
-		minZ = -40,
-		maxZ = -36,
-	}, {
-		options = {
-			{
-				type = "client",
-				event = "md-drugs:client:cutcokeone",
-				icon = "fas fa-sign-in-alt",
-				label = "cut up",
-				canInteract = function()
-					if cuttingcoke == nil then return true end
-				end			
-			},
-		},
-		distance = 2.5
-	})
-	exports['qb-target']:AddBoxZone("bagcokepowder",vector3(1090.19, -3194.8, -38.98),1.5, 1.75, { -- 963.37, -2122.95, 31.47
-		name = "bagcokepowder",
-		heading = 11.0,
-		debugPoly = false,
-		minZ = -40,
-		maxZ = -36,
-	}, {
-		options = {
-			{
-				type = "client",
-				event = "md-drugs:client:bagcoke",
-				icon = "fas fa-sign-in-alt",
-				label = "bagging",
-				canInteract = function()
-					if baggingcoke == nil then return true end
-				end
-			},
-		},
-		distance = 2.5
-	})
+AddEventHandler("md-drugs:client:bagcoke", function()
+	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
+    QBCore.Functions.Progressbar("drink_something", "Bagging up the coke", 4000, false, true, {
+        disableMovement = true,
+        disableCarMovement = false,
+        disableMouse = false,
+        disableCombat = true,
+        disableInventory = true,
+    }, {}, {}, {}, function()-- Done
+	    TriggerServerEvent("md-drugs:server:bagcoke")
+        ClearPedTasks(PlayerPedId())
+    end)
 end)

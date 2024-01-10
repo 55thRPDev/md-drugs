@@ -1,25 +1,86 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+-- default animations for taking drugs
+local dictionary = "mp_suicide"
+local animation = "pill"
+-- needle based drug animations
+-- local syringeProp = `prop_syringe_01`
+-- local syringeDict = "rcmpaparazzo1ig_4"
+-- local syringeAnim = "miranda_shooting_up"
+-- local syringeBone = 28422
+-- local syringeOffset = vector3(0, 0, 0)
+-- local syringeRot = vector3(0, 0, 0)
+
+
+local xtc = {
+    white_playboys = true, white_playboys2 = true, white_playboys3 = true, white_playboys4 = true,
+    blue_playboys = true, blue_playboys2 = true, blue_playboys3 = true, blue_playboys4 = true,
+    red_playboys = true, red_playboys2 = true, red_playboys3 = true, red_playboys4 = true,
+    orange_playboys = true, orange_playboy2s = true, orange_playboys3 = true, orange_playboys4 = true,
+    white_aliens = true, white_aliens2 = true, white_aliens3 = true, white_aliens4 = true,
+    blue_aliens = true, blue_aliens2 = true, blue_aliens3 = true, blue_aliens4 = true,
+    red_aliens = true, red_aliens2 = true, red_aliens3 = true, red_aliens4 = true,
+    orange_aliens = true, orange_aliens2 = true, orange_aliens3 = true, orange_aliens4 = true,
+    white_pl = true, white_pl2 = true, white_pl3 = true, white_pl4 = true,
+    blue_pl = true, blue_pl2 = true, blue_pl3 = true, blue_pl4 = true,
+    red_pl = true, red_pl2 = true, red_pl3 = true, red_pl4 = true,
+    orange_pl = true, orange_pl2 = true, orange_pl3 = true, orange_pl4 = true,
+    white_trolls = true, white_trolls2 = true, white_trolls3 = true, white_trolls4 = true,
+    blue_trolls = true, blue_trolls2 = true, blue_trolls3 = true, blue_trolls4 = true,
+    red_trolls = true, red_trolls2 = true, red_trolls3 = true, red_trolls4 = true,
+    orange_trolls = true, orange_trolls2 = true, orange_trolls3 = true, orange_trolls4 = true,
+    white_cats = true, white_cats2 = true, white_cats3 = true, white_cats4 = true,
+    blue_cats = true, blue_cats2 = true, blue_cats3 = true, blue_cats4 = true,
+    red_cats = true, red_cats2 = true, red_cats3 = true, red_cats4 = true,
+    orange_cats = true, orange_cats2 = true, orange_cats3 = true, orange_cats4 = true
+}
+
 
 RegisterNetEvent('md-drugs:client:consumedrugs', function(itemName)
-      QBCore.Functions.Progressbar("use_lsd", "Have Fun!", 1750, false, true, {
+
+    -- if itemName == "heroin_ready" then
+	-- 	SyringeUse()
+    -- end
+      QBCore.Functions.Progressbar("use_lsd", "Have Fun!", 5000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
+        disableMouse = false,
+        disableCombat = true,
     }, {
-		animDict = "mp_suicide",
-		anim = "pill",
-		flags = 49,
+        animDict = dictionary,
+        anim = animation,
+        flags = 49,
     }, {}, {}, function()
-       ClearPedTasks(PlayerPedId())
-	TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
-		if itemName == "white_playboys" or itemName ==  "white_playboys2" or itemName ==  "white_playboys3" or itemName ==  "white_playboys4" or itemName == "blue_playboys" or itemName ==  "blue_playboys2" or itemName ==  "blue_playboys3" or itemName ==  "blue_playboys4" or itemName ==  "red_playboys" or itemName ==  "red_playboys2" or itemName ==  "red_playboys3" or itemName ==  "red_playboys4" or itemName ==  "orange_playboys" or itemName ==  "orange_playboy2s" or itemName ==  "orange_playboys3" or itemName ==  "orange_playboys4" or itemName ==  "white_aliens" or itemName ==  "white_aliens2" or itemName ==  "white_aliens3" or itemName ==  "white_aliens4" or itemName ==  "blue_aliens" or itemName ==  "blue_aliens2" or itemName ==  "blue_aliens3" or itemName ==  "blue_aliens4" or itemName ==  "red_aliens" or itemName ==  "red_aliens3" or itemName ==  "red_aliens2" or itemName ==  "red_aliens4" or itemName ==  "orange_aliens" or itemName ==  "orange_aliens2" or itemName ==  "orange_aliens3" or itemName ==  "orange_aliens4" or itemName ==  "white_pl" or itemName ==  "white_pl2" or itemName ==  "white_pl3" or itemName ==  "white_pl4" or itemName == "blue_pl" or itemName ==  "blue_pl2" or itemName ==  "blue_pl3" or itemName ==  "blue_pl4" or itemName ==  "red_pl" or itemName ==  "red_pl2" or itemName ==  "red_pl3" or itemName ==  "red_pl4" or itemName ==  "orange_pl" or itemName ==  "orange_pl2" or itemName ==  "orange_pl3" or itemName ==  "orange_pl4" or itemName ==  "white_trolls" or itemName ==  "white_trolls2" or itemName ==  "white_trolls3" or itemName ==  "white_trolls4" or itemName == "blue_trolls" or itemName ==  "blue_trolls2" or itemName ==  "blue_trolls3" or itemName ==  "blue_trolls4" or itemName ==  "red_trolls" or itemName ==  "red_trolls2" or itemName ==  "red_trolls3" or itemName ==  "red_trolls4" or itemName ==  "orange_trolls" or itemName ==  "orange_trolls2" or itemName ==  "orange_trolls3" or itemName ==  "orange_trolls4" or itemName ==  "white_cats2" or itemName ==  "white_cats3" or itemName ==  "white_cats4" or itemName ==  "white_cats" or itemName == "blue_cats" or itemName ==  "blue_cats3" or itemName ==  "blue_cats2" or itemName ==  "blue_cats4" or itemName ==  "red_cats" or itemName ==  "red_cats2" or itemName ==  "red_cats3" or itemName ==  "red_cats4" or itemName ==  "orange_cats" or itemName ==  "orange_cats2" or itemName ==  "orange_cats3" or itemName ==  "orange_cats4" then
+       ClearPedTasks(cache.ped)
+       --delete the syringe in players hand
+    --    DeleteObject(SyringeObj)
+    TriggerEvent("evidence:client:SetStatus", "widepupils", 300)
+        if itemName == "cokebaggy" or itemName == "baggedcracked" then
+            CokeBaggyEffect()
+		elseif xtc[itemName] then
 			AlienEffect()
-		elseif itemName == "cupoflean" or itemName == "cupofdextro" or itemName == "baggedcracked" or itemName == "baggedcrackedstagetwo" or itemName == "baggedcrackedstagethree" then
-			CokeBaggyEffect()
-		else
+        -- elseif itemName == "heroin_ready" then
+        --     HeroinEffect()
+		-- else
 			TrevorEffect()
-		end	
+        end
    end)
+
 end)
 
+-- function SyringeUse()
+
+--     SyringeObj = CreateObject(syringeProp, 0.0, 0.0, 0.0, true, true, false)
+-- 	local syringeBoneIndex = GetPedBoneIndex(cache.ped, syringeBone)
+
+-- 	lib.requestModel(syringeProp, 1000) -- utilize lib request
+-- 	SetModelAsNoLongerNeeded(syringeProp) -- set as no longer needed immediately after request to release the model from the cdimage
+
+-- 	-- unarm the player, attach the syringe object to them
+-- 	SetCurrentPedWeapon(cache.ped, `weapon_unarmed`, true)
+-- 	AttachEntityToEntity(SyringeObj, cache.ped, syringeBoneIndex, syringeOffset.x, syringeOffset.y, syringeOffset.z, syringeRot.x, syringeRot.y, syringeRot.z, false, false, false, false, 2, true)
+
+-- 	-- set dict and anim variables for progress bar to use syringe animations
+-- 	dictionary = syringeDict
+-- 	animation = syringeAnim
+
+-- end

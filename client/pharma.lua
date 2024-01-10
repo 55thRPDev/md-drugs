@@ -1,39 +1,54 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterCommand('prescriptionpad', function()
-if QBCore.Functions.GetPlayerData().job.name == Config.PharmaJob then 
-   lib.registerContext({
-   id = 'prescriptionpad',
-   title = "Prescription Pad",
-   options = {
+if QBCore.Functions.GetPlayerData().job.name == "ambulance"  then 
+    exports['qb-menu']:openMenu({
         {
-            title  = 'Give Vicodin',
-            description  = 'Give Vicodin ',
-            icon = 'fa-solid fa-file-prescription',
-            event = 'md-drugs:client:givevicodinprescription',
-        },  
-        {
-            title  = 'Give Adderal',
-            description  = 'Give Adderal ',
-            icon = 'fa-solid fa-file-prescription',
-            event = 'md-drugs:client:giveadderalprescription',
-        },  
-		{
-            title  = 'Give Morphine',
-            description  = 'Give Morphine ',
-            icon = 'fa-solid fa-file-prescription',
-            event = 'md-drugs:client:givemorphineprescription',
-               
-        },  
-        {
-            title  = 'Give Xanax',
-            description  = 'Give Vicodin ',
-            icon = 'fa-solid fa-file-prescription',
-			event = 'md-drugs:client:givexanaxprescription',
+            header = 'Prescription Pad',
+            icon = 'fa-solid fa-prescription',
+            isMenuHeader = true, -- Set to true to make a nonclickable title
         },
-	}
+        {
+            header = 'Give Vicodin',
+            txt = 'Give Vicodin ',
+            icon = 'fa-solid fa-file-prescription',
+            params = {
+                event = 'md-drugs:client:givevicodinprescription',
+                args = {
+                }
+            }
+        },  
+        {
+            header = 'Give Adderal',
+            txt = 'Give Adderal ',
+            icon = 'fa-solid fa-file-prescription',
+            params = {
+                event = 'md-drugs:client:giveadderalprescription',
+                args = {
+                }
+            }
+        },  
+		 {
+            header = 'Give Morphine',
+            txt = 'Give Morphine ',
+            icon = 'fa-solid fa-file-prescription',
+            params = {
+                event = 'md-drugs:client:givemorphineprescription',
+                args = {
+                }
+            }
+        },  
+        {
+            header = 'Give Xanax',
+            txt = 'Give Vicodin ',
+            icon = 'fa-solid fa-file-prescription',
+            params = {
+                event = 'md-drugs:client:givexanaxprescription',
+                args = {
+                }
+            }
+        },  
     })
-lib.showContext('prescriptionpad')	
 else
 QBCore.Functions.Notify("Youre Not A Medical Person", "error")
 end

@@ -49,21 +49,21 @@ RegisterServerEvent('md-drugs:server:makebutter', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local recipe = {"mdbutter", "grindedweed"}
   local grind = Player.Functions.GetItemByName("grindedweed")
-  local lock = Player.Functions.GetItemByName('mdbutter') 
+  local lock = Player.Functions.GetItemByName('mdbutter')
   local price = 0
-  for k, v in pairs (recipe) do 
+  for k, v in pairs (recipe) do
 		if lock and lock.amount > 0 then
 			if grind and grind.amount > 0 then
 				if Player.Functions.RemoveItem(v, 1) then
 					price = 1
 				end
-			end	
+			end
 		end
-	end				
-	if price == 1 then 
+	end
+	if price == 1 then
 		Player.Functions.AddItem('cannabutter', 1 )
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cannabutter'], "add", 1)
-		
+
 	end
 end)
 
@@ -73,21 +73,21 @@ RegisterServerEvent('md-drugs:server:makebrownies', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local recipe = {"cannabutter", "flour", "chocolate"}
   local butter = Player.Functions.GetItemByName("cannabutter")
-  local flour = Player.Functions.GetItemByName('flour') 
-   local choc = Player.Functions.GetItemByName('chocolate') 
+  local flour = Player.Functions.GetItemByName('flour')
+   local choc = Player.Functions.GetItemByName('chocolate')
   local price = 0
-  for k, v in pairs (recipe) do 
+  for k, v in pairs (recipe) do
 		if butter and butter.amount > 0 then
 			if flour and flour.amount > 0 then
 				if choc and choc.amount > 0 then
 					if Player.Functions.RemoveItem(v, 1) then
 						price = 1
 					end
-				end	
-			end	
+				end
+			end
 		end
-	end				
-	if price == 1 then 
+	end
+	if price == 1 then
 		Player.Functions.AddItem('specialbrownie', 1 )
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['specialbrownie'], "add", 1)
 	end
@@ -98,20 +98,20 @@ RegisterServerEvent('md-drugs:server:makecookies', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local recipe = {"cannabutter", "flour"}
   local butter = Player.Functions.GetItemByName("cannabutter")
-  local flour = Player.Functions.GetItemByName('flour')  
+  local flour = Player.Functions.GetItemByName('flour')
   local price = 0
-  for k, v in pairs (recipe) do 
+  for k, v in pairs (recipe) do
 		if butter and butter.amount > 0 then
 			if flour and flour.amount > 0 then
 				if Player.Functions.RemoveItem(v, 1) then
 					price = 1
 				end
-				
-			end	
+
+			end
 		end
-	end				
-	if price == 1 then 
-		Player.Functions.AddItem('specialcookie', 1 ) 
+	end
+	if price == 1 then
+		Player.Functions.AddItem('specialcookie', 1 )
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['specialcookie'], "add", 1)
 	end
 end)
@@ -121,20 +121,20 @@ RegisterServerEvent('md-drugs:server:makechocolate', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local recipe = {"cannabutter", "chocolate"}
   local butter = Player.Functions.GetItemByName("cannabutter")
-  local choc = Player.Functions.GetItemByName('chocolate')  
+  local choc = Player.Functions.GetItemByName('chocolate')
   local price = 0
-  for k, v in pairs (recipe) do 
+  for k, v in pairs (recipe) do
 		if butter and butter.amount > 0 then
 			if choc and choc.amount > 0 then
 				if Player.Functions.RemoveItem(v, 1) then
 					price = 1
 				end
-				
-			end	
+
+			end
 		end
-	end				
-	if price == 1 then 
-		Player.Functions.AddItem('specialchocolate', 1 ) 
+	end
+	if price == 1 then
+		Player.Functions.AddItem('specialchocolate', 1 )
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['specialchocolate'], "add", 1)
 	end
 end)
@@ -144,20 +144,20 @@ RegisterServerEvent('md-drugs:server:makemuffin', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local recipe = {"cannabutter", "flour"}
   local butter = Player.Functions.GetItemByName("cannabutter")
-  local flour = Player.Functions.GetItemByName('flour')  
+  local flour = Player.Functions.GetItemByName('flour')
   local price = 0
-  for k, v in pairs (recipe) do 
+  for k, v in pairs (recipe) do
 		if butter and butter.amount > 0 then
 			if flour and flour.amount > 0 then
 				if Player.Functions.RemoveItem(v, 1) then
 					price = 1
 				end
-				
-			end	
+
+			end
 		end
-	end				
-	if price == 1 then 
-		Player.Functions.AddItem('specialmuffin', 1 ) 
+	end
+	if price == 1 then
+		Player.Functions.AddItem('specialmuffin', 1 )
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['specialmuffin'], "add", 1)
 	end
 end)
@@ -167,19 +167,19 @@ RegisterServerEvent('md-drugs:server:makeoil', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local recipe = {"butane", "grindedweed"}
   local grind = Player.Functions.GetItemByName("grindedweed")
-  local butane = Player.Functions.GetItemByName('butane') 
+  local butane = Player.Functions.GetItemByName('butane')
   local price = 0
-  for k, v in pairs (recipe) do 
+  for k, v in pairs (recipe) do
 		if butane and butane.amount > 0 then
 			if grind and grind.amount > 0 then
 				if Player.Functions.RemoveItem(v, 1) then
 					price = 1
 				end
-			end	
+			end
 		end
-	end				
-	if price == 1 then 
-		Player.Functions.AddItem('shatter', 1 ) 
+	end
+	if price == 1 then
+		Player.Functions.AddItem('shatter', 1 )
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['shatter'], "add", 1)
 	end
 end)
@@ -191,20 +191,20 @@ RegisterServerEvent('md-drugs:server:rollblunt', function()
   local Player = QBCore.Functions.GetPlayer(src)
   local recipe = {"bluntwrap", "grindedweed"}
   local grind = Player.Functions.GetItemByName("grindedweed")
-  local butane = Player.Functions.GetItemByName('bluntwrap') 
+  local butane = Player.Functions.GetItemByName('bluntwrap')
   local price = 0
-  for k, v in pairs (recipe) do 
+  for k, v in pairs (recipe) do
 		if butane and butane.amount > 0 then
 			if grind and grind.amount > 0 then
 				if Player.Functions.RemoveItem(v, 1) then
 					TriggerClientEvent("md-drugs:client:rollanim", src)
 					price = 1
 				end
-			end	
+			end
 		end
-	end				
-	if price == 1 then 
-		Player.Functions.AddItem('blunt', 1 ) 
+	end
+	if price == 1 then
+		Player.Functions.AddItem('blunt', 1 )
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['blunt'], "add", 1)
 	end
 end)
@@ -213,7 +213,7 @@ RegisterServerEvent('md-drugs:server:rollleanblunt', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local grind = Player.Functions.GetItemByName("mdlean")
-  local wrap = Player.Functions.GetItemByName('bluntwrap') 
+  local wrap = Player.Functions.GetItemByName('bluntwrap')
   local chance = math.random(1,10)
 	if grind.amount > 0 then
 		if wrap.amount > 0 then
@@ -233,7 +233,7 @@ RegisterServerEvent('md-drugs:server:rolldextroblunt', function()
   local src = source
   local Player = QBCore.Functions.GetPlayer(src)
   local grind = Player.Functions.GetItemByName("mdreddextro")
-  local wrap = Player.Functions.GetItemByName('bluntwrap') 
+  local wrap = Player.Functions.GetItemByName('bluntwrap')
   local chance = math.random(1,10)
 	if grind and grind.amount > 0 then
 		if wrap and wrap.amount > 0 then
@@ -242,7 +242,7 @@ RegisterServerEvent('md-drugs:server:rolldextroblunt', function()
 			TriggerClientEvent("md-drugs:client:rollanim", src)
 			if chance > 8 then
 				Player.Functions.RemoveItem("mdreddextro", 1)
-			end	
+			end
 			Player.Functions.AddItem("dextrobluntwrap", 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['dextrobluntwrap'], "add", 1)
 		end
@@ -253,12 +253,36 @@ end)
 
 RegisterServerEvent('md-drugs:server:rollchewyblunt', function()
   local src = source
+  local cokeloose
   local Player = QBCore.Functions.GetPlayer(src)
-  local coke = Player.Functions.GetItemByName("loosecoke")
-  local wrap = Player.Functions.GetItemByName('bluntwrap') 
-  local keef = Player.Functions.GetItemByName('grindedweed') 
+  local coke = Player.Functions.GetItemByName("cokebaggy")
+  if not coke then
+	 cokeloose = Player.Functions.GetItemByName("loosecoke")
+  end
+  local wrap = Player.Functions.GetItemByName('bluntwrap')
+  local keef = Player.Functions.GetItemByName('grindedweed')
   local chance = math.random(1,10)
 	if coke and coke.amount > 0 then
+		if wrap and wrap.amount > 0 then
+			if keef and keef.amount > 0 then
+				Player.Functions.RemoveItem("bluntwrap", 1)
+				TriggerClientEvent("md-drugs:client:rollanim", src)
+				Player.Functions.RemoveItem("cokebaggy", 1)
+				Player.Functions.RemoveItem("grindedweed", 1)
+				Player.Functions.AddItem("chewyblunt", 1)
+				Player.Functions.AddItem("empty_weed_bag", 1)
+				TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['chewyblunt'], "add", 1)
+				TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['empty_weed_bag'], "add", 1)
+				TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['cokebaggy'], "remove", 1)
+				TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['grindedweed'], "remove", 1)
+				TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['bluntwrap'], "remove", 1)
+			else
+			TriggerClientEvent('QBCore:Notify', src, "You Need Some Keef", "error")
+			end
+		else
+			TriggerClientEvent('QBCore:Notify', src, "You Need Some Blunt Wraps", "error")
+		end
+	elseif cokeloose and cokeloose.amount > 0 then
 		if wrap and wrap.amount > 0 then
 			if keef and keef.amount > 0 then
 				Player.Functions.RemoveItem("bluntwrap", 1)
@@ -272,10 +296,12 @@ RegisterServerEvent('md-drugs:server:rollchewyblunt', function()
 				TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['bluntwrap'], "remove", 1)
 			else
 			TriggerClientEvent('QBCore:Notify', src, "You Need Some Keef", "error")
-			end	
+			end
+		else
+			TriggerClientEvent('QBCore:Notify', src, "You Need Some Blunt Wraps", "error")
 		end
 	else
-	TriggerClientEvent('QBCore:Notify', src, "You Need Some Loose Coke", "error")
+	TriggerClientEvent('QBCore:Notify', src, "You Need Some Coke", "error")
 	end
 end)
 ------------------------ usuable items
@@ -283,11 +309,11 @@ QBCore.Functions.CreateUseableItem("leanbluntwrap", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local keef = Player.Functions.GetItemByName("grindedweed")
-	
-	if keef and keef.amount > 0 then 
+
+	if keef and keef.amount > 0 then
 		if Player.Functions.RemoveItem('grindedweed', 1) then
 			TriggerClientEvent("md-drugs:client:rollanim", src)
-			Player.Functions.RemoveItem("leanbluntwrap", 1) 
+			Player.Functions.RemoveItem("leanbluntwrap", 1)
 			Player.Functions.AddItem('leanblunts', 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['leanblunts'], "add", 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['grindedweed'], "remove", 1)
@@ -301,11 +327,11 @@ QBCore.Functions.CreateUseableItem("dextrobluntwrap", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 local keef = Player.Functions.GetItemByName("grindedweed")
-	
-	if keef and keef.amount > 0 then 
+
+	if keef and keef.amount > 0 then
 		if Player.Functions.RemoveItem('grindedweed', 1) then
 			TriggerClientEvent("md-drugs:client:rollanim", src)
-			Player.Functions.RemoveItem("dextrobluntwrap", 1) 
+			Player.Functions.RemoveItem("dextrobluntwrap", 1)
 			Player.Functions.AddItem('dextroblunts', 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['dextroblunts'], "add", 1)
 			TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['grindedweed'], "remove", 1)
@@ -341,7 +367,7 @@ QBCore.Functions.CreateUseableItem("dabrig", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
-if Player.Functions.GetItemByName("butanetorch") then 
+if Player.Functions.GetItemByName("butanetorch") then
 	if Player.Functions.RemoveItem("shatter", 1) then
     	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["shatter"], "remove", 1)
     	TriggerClientEvent("md-drugs:client:dodabs", src)
@@ -361,7 +387,7 @@ end)
 QBCore.Functions.CreateUseableItem("weedgrinder", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
-if Player.Functions.RemoveItem("drycannabis",1 ) then 
+if Player.Functions.RemoveItem("drycannabis",1 ) then
 	Player.Functions.AddItem("grindedweed", 1)
 	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["grindedweed"], "add", 1)
 	TriggerClientEvent("md-drugs:client:rollanim", src)
@@ -372,7 +398,7 @@ QBCore.Functions.CreateUseableItem("mdwoods", function(source, item)
 local src = source
 local Player = QBCore.Functions.GetPlayer(src)
 
-if Player.Functions.RemoveItem("mdwoods",1 ) then 
+if Player.Functions.RemoveItem("mdwoods",1 ) then
 	Player.Functions.AddItem("bluntwrap", 5)
 	Player.Functions.AddItem("tobacco", 5)
 	TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["bluntwrap"], "add", 1)

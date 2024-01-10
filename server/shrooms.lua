@@ -31,6 +31,10 @@ local chance = math.random(1,10)
         local Player = QBCore.Functions.GetPlayer(source)
         Player.Functions.AddItem(Config.rewardshrooms, 1)
         TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items[Config.rewardshrooms], "add")
+		if chance <= 2 then
+			Player.Functions.AddItem("lockpick",1 )
+			TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items["lockpick"], "add")
+		end
     end
 end)
 

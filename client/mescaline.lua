@@ -8,7 +8,7 @@ function LoadModel(hash)
     while not HasModelLoaded(hash) do
         Wait(3000)
     end
-end 
+end
 
 local function loadParticle(dict)
     if not HasNamedPtfxAssetLoaded(dict) then
@@ -31,10 +31,11 @@ RegisterNetEvent('Mescaline:respawnCane', function(loc)
         SetEntityAsMissionEntity(Mescaline[loc], true, true)
         FreezeEntityPosition(Mescaline[loc], true)
         SetEntityHeading(Mescaline[loc], v.heading)
-        exports['qb-target']:AddTargetEntity(Mescaline[loc], {
-            options = { {
+        exports.ox_target:addLocalEntity(Mescaline[loc], {
+              {
                     icon = "fas fa-hand",
                     label = "pick Cactus",
+                    distance = 3.0,
                     action = function()
                         QBCore.Functions.Progressbar("pick_cane", "picking Cactus", 2000, false, true, {
                             disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
@@ -46,9 +47,8 @@ RegisterNetEvent('Mescaline:respawnCane', function(loc)
                             ClearPedTasks(PlayerPedId())
                         end)
                     end
+
                 }
-            },
-            distance = 3.0
         })
     end
 end)
@@ -71,12 +71,13 @@ RegisterNetEvent("Mescaline:init", function()
             SetEntityAsMissionEntity(Mescaline[k], true, true)
             FreezeEntityPosition(Mescaline[k], true)
             SetEntityHeading(Mescaline[k], v.heading)
-            exports['qb-target']:AddTargetEntity(Mescaline[k], {
-                options = { {
+            exports.ox_target:addLocalEntity(Mescaline[k], {
+             {
                         icon = "fas fa-hand",
                         label = "Pick Mescaline",
-                        action = function()
-                            QBCore.Functions.Progressbar("pick_cane", "Picking Mescaline", 2000, false, true, {
+                        distance = 3.0,
+                        onSelect = function()
+                            QBCore.Functions.Progressbar("pick_cane", "Picking Cactus", 2000, false, true, {
                                 disableMovement = true, disableCarMovement = true, disableMouse = false, disableCombat = true, },
                                 { animDict = 'amb@prop_human_bum_bin@idle_a', anim = 'idle_a', flags = 47, },
                                 {}, {}, function()
@@ -87,8 +88,7 @@ RegisterNetEvent("Mescaline:init", function()
                             end)
                         end
                     }
-                },
-                distance = 3.0
+
             })
         end
     end
@@ -100,13 +100,13 @@ AddEventHandler('onResourceStart', function(resource)
         TriggerEvent('Mescaline:init')
     end
  end)
- 
+
  RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
      Wait(3000)
      LoadModel('prop_cactus_03')
      TriggerEvent('Mescaline:init')
  end)
- 
+
  AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() == resourceName then
         SetModelAsNoLongerNeeded(GetHashKey('prop_cactus_03'))
@@ -120,9 +120,9 @@ end)
 
 
 RegisterNetEvent("md-drugs:client:drymescaline")
-AddEventHandler("md-drugs:client:drymescaline", function() 
+AddEventHandler("md-drugs:client:drymescaline", function()
 	exports["rpemotes"]:EmoteCommandStart("uncuff", 0)
-    QBCore.Functions.Progressbar("drink_something", "Drying Out", 4000, false, true, {
+    QBCore.Functions.Progressbar("dry_mesc", "Drying Out", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
         disableMouse = false,
@@ -137,39 +137,35 @@ end)
 RegisterNetEvent("md-drugs:client:takemescaline")
 AddEventHandler("md-drugs:client:takemescaline", function()
 local chance = math.random(1,100)
-local chance2 = math.random(1,100)
-    QBCore.Functions.Progressbar("drink_something", "Taking Mescaline", 1000, false, true, {
+
+    QBCore.Functions.Progressbar("use_mesc", "Taking Mescaline", 1000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
         disableMouse = false,
         disableCombat = true,
         disableInventory = true,
     }, {}, {}, {}, function()-- Done
-		if chance <= Config.Badtrip then 
+		if chance <= Config.Badtrip then
 			AlienEffect()
 			clone = ClonePed(PlayerPedId(), false, false, true)
+			NetworkRegisterEntityAsNetworked(clone)
+			networkID = NetworkGetNetworkIdFromEntity(clone)
+			SetNetworkIdCanMigrate(networkID, true)
+			SetNetworkIdExistsOnAllMachines(networkID, true)
 			SetEntityAsMissionEntity(clone)
 			SetEntityVisible(clone, true)
 			SetPedRelationshipGroupHash(clone)
-			SetPedAccuracy(clone)
-			SetPedArmour(clone)
-			SetPedCanSwitchWeapon(clone, true)
+			SetPedAccuracy(clone, 100)
+			SetPedArmour(clone, 100)
 			SetPedFleeAttributes(clone, false)
-			if chance2 <= 99 then
-				GiveWeaponToPed(clone, "weapon_flaregun", 1, false, true)
-				TaskCombatPed(clone, PlayerPedId(), 0, 16)
-				SetPedCombatAttributes(clone, 46, true)
-				Wait(1000 * 30)
-				DeleteEntity(clone)
-			else
-				GiveWeaponToPed(clone, "weapon_rpg", 1, false, true)
-				TaskCombatPed(clone, PlayerPedId(), 0, 16)
-				SetPedCombatAttributes(clone, 46, true)
-				Wait(1000 * 30)
-				DeleteEntity(clone)
-			end
+			GiveWeaponToPed(clone, "weapon_flaregun", 1, false, true)
+            SetPedCanSwitchWeapon(clone, false)
+			TaskCombatPed(clone, PlayerPedId(), 0, 16)
+			SetPedCombatAttributes(clone, 46, true)
+			Wait(1000 * 30)
+			DeleteEntity(clone)
 		else
 			AlienEffect()
-		end	
+		end
     end)
 end)
